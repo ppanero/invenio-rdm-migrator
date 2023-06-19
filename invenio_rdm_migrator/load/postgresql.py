@@ -247,3 +247,17 @@ class TableGenerator(ABC):
         """Create rows after iterating over the entries."""
         for hook in self.post_load_hooks:
             hook(**kwargs)
+
+
+class ExistingDataTableGenerator(TableGenerator):
+    """Table generator to import data directly from existing data.
+
+
+    This is useful when the data_dir already contain the files (e.g. csv) with
+    the contents to be imported, for example from a previous migration run. Using
+    this table generator the Extract and Transform steps can be skipped.
+    """
+
+    def prepare(self, tmp_dir, entry, stack, output_files, **kwargs):
+        """Nullify the data file creation, since they already exists."""
+        pass
